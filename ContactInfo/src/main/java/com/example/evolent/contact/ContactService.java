@@ -61,8 +61,13 @@ public class ContactService {
 	}
 	
 	public void deleteContact(Integer id)
-	{
-		contactRepository.deleteById(id);
+	{ 
+		try {
+			contactRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("The contact is not present");
+		}
+	
 	}
 
 	public void updateContact(Contact contact ,Integer id) {
