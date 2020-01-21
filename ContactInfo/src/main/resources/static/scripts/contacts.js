@@ -7,7 +7,7 @@ function save(){
 	const lnameInput = document.querySelector('#lname').value;
 	const telInput = document.querySelector('#tel').value;
 	const emailInput = document.querySelector('#email').value;
-	const activeInput = document.querySelector('#active').value;
+
 	if(!fnameInput){
 		alert("first name is required");
 	}
@@ -20,7 +20,7 @@ function save(){
 	if(!emailInput){
 		alert("Email is required");
 	}
-
+	
 	let request = new XMLHttpRequest();
 	if(contactId){
 		request.open("PUT", "/contacts/"+contactId, false);
@@ -34,9 +34,9 @@ function save(){
 		"lastName":lnameInput,
 		"email":emailInput,
 		"phoneNumber":telInput,
-		"active":activeInput
+		"active":document.getElementById("active").checked
 		}));
-	console.log(request)
+	
 	if(request.status === 400){
 		alert(request.responseText);
 	}else{
