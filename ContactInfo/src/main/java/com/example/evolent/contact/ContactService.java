@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -72,6 +73,10 @@ public class ContactService {
 
 	public void updateContact(Contact contact ,Integer id) {
 		
+		contactRepository.findById(id)
+		 .orElseThrow(() -> new ContactNotFoundException(id));
+		
+		
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
                 "[a-zA-Z0-9_+&*-]+)*@" + 
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
@@ -92,7 +97,8 @@ public class ContactService {
 			throw  new EmailException();
 		}
 		
-		Contact pantsInDB = contactRepository.findById(id).get(); 
+		Contact pantsInDB = contactRepository.findById(id).get();
+		
 		pantsInDB.setFirstName(contact.getFirstName());
 		pantsInDB.setLastName(contact.getLastName());
 		pantsInDB.setEmail(contact.getEmail());
